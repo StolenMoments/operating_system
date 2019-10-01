@@ -28,3 +28,31 @@
     - 순서가 P2->P3->P1 이라면 AWT = (0 + 3 + 6) / 3 = 3
     - 척도를 대기 시간으로 본다면 빠른 것 부터 처리하면 좋다는 결론을 낼 수 있음.
     - 먼저 온 녀석을 처리하는 것이 마냥 좋은 것이 아니다.
+
+- SJF (1)
+  - 시간이 적게 드는 프로세스 부터 실행
+  - AWT (Average Waiting Time)
+    - P1 Burst Time : 6
+    - P2 Burst Time : 8
+    - P3 Burst Time : 7
+    - P4 Burst Time : 3
+    
+    - P4 -> P1 -> P3 -> P2 AWT = 7ms (FCFS : 10.25ms)
+  
+  - 단점은 비현실적이라는 것...Burst Time을 미리 알 수가 없다...
+  
+- SJF (2)
+  - 최소 잔여시간 우선 (SRTF)
+  - 현재 시점에서 잔여시간이 가장 적은 것(Burst Time - Arrival Time) 부터 실행
+  - 선점형은 돌던 프로세스를 바꿀 수 있음.
+  
+- Priorty Scheduling (1)
+  - 프로세스에 우선 순위를 부여해 1순위, 2순위, 3순위...순서로 실행
+  - 우선 순위는 어떻게 정하는가?
+    - 내부적 : Time Limit, Memory Requirement, I/O to CPU Burst...
+    - 외부적 : 돈 많이 낸 순서, 정치적인 요소, 업무 우선 순위 등...
+    
+  - 문제점 : 기아(Starvation)
+    - 외부에서 새로운 작업이 계속 들어오는데, 그 작업이 우선 순위가 높으면 기다리던 것은 또 기다림.
+    - **계속 기다릴 수 있음...!**
+    - 해결책으로 aging. Ready Queue에서 오래 기다릴 수록 우선 순위를 점진적으로 올려줌.
