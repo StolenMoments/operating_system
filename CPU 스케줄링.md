@@ -64,5 +64,25 @@
   - 성능은 타임 퀀텀에 의존적.
   - 타임 퀀텀이 무한대로 가까워지면 = FCFS
   - 타임 퀀텀이 0에 수렴하면 = Processor Sharing (Context-switching overhead) 여러 개의 프로세스가 거의 같이 도는 느낌. Context-switching에 부하가 걸릴 수 밖에 없지.
-  
   - ATT(Average Turnaround Time) : 도착에서 작업이 끝나기 까지의 시간의 평균.
+
+- Multilevel Queue
+  - Process groups
+    - System processes
+    - Interactive processes
+    - Interactive editing processes
+    - Batch processes
+    - Student processes
+    
+  - Single ready queue -> Several separate queues
+    - 각각의 Queue에 절대적 우선 순위 존재
+    - 또는 CPu time 을 각 Queue에 차등 배분
+    - 각 Queue는 독립된 스케줄링 정책
+    - 업무 별로 Queue를 분류하는 방식이라고 이해.
+    - 은행에서 입금할 사람과 대출 상담할 사람을 같은 줄에 두는 건 좀 그렇잖아?
+    
+ - Multilevel Feedback Queue
+    - 복수개의 Queue
+    - 모든 프로세스는 하나의 입구로 진입.
+    - 너무 시간을 잡아먹으면 다른 Queue로 이동.
+    - 기아 상태 우려 시 우선 순위 높은 Queue로 이동.
