@@ -46,7 +46,7 @@
   - 현재 시점에서 잔여시간이 가장 적은 것(Burst Time - Arrival Time) 부터 실행
   - 선점형은 돌던 프로세스를 바꿀 수 있음.
   
-- Priorty Scheduling (1)
+- Priorty Scheduling
   - 프로세스에 우선 순위를 부여해 1순위, 2순위, 3순위...순서로 실행
   - 우선 순위는 어떻게 정하는가?
     - 내부적 : Time Limit, Memory Requirement, I/O to CPU Burst...
@@ -56,3 +56,13 @@
     - 외부에서 새로운 작업이 계속 들어오는데, 그 작업이 우선 순위가 높으면 기다리던 것은 또 기다림.
     - **계속 기다릴 수 있음...!**
     - 해결책으로 aging. Ready Queue에서 오래 기다릴 수록 우선 순위를 점진적으로 올려줌.
+
+- Round-Robin
+  - 시분할 시스템
+  - 선점형 스케줄링
+  - 타임 퀀텀(타임 슬라이스)만큼 프로세스들을 하나 씩 돌림.
+  - 성능은 타임 퀀텀에 의존적.
+  - 타임 퀀텀이 무한대로 가까워지면 = FCFS
+  - 타임 퀀텀이 0에 수렴하면 = Processor Sharing (Context-switching overhead) 여러 개의 프로세스가 거의 같이 도는 느낌. Context-switching에 부하가 걸릴 수 밖에 없지.
+  
+  - ATT(Average Turnaround Time) : 도착에서 작업이 끝나기 까지의 시간의 평균.
