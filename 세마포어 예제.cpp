@@ -1,5 +1,5 @@
 // reference : https://austingwalters.com/multithreading-semaphores
-
+// 입금, 출금 요청이 동시에 여러개가 들어와도 잔고는 멀쩡해야 하는 것이 목표.
 #include <iostream>      
 #include <thread>        
 #include <mutex>         
