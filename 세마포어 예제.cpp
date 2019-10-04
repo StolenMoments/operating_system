@@ -11,36 +11,25 @@ condition_variable cv; // condition variable for critical section
 bool ready = false;         // Tell threads to run
 int balance = 0;
 int num = 0;
+int value = 1;
 
 void depo(int cnt) {
 	unique_lock<mutex> lck(mtx);
-	cout << cnt << " 번째 돌입 \n";
-	while (num != cnt || !ready) cv.wait(lck);
-	num++;
 	balance += 1000;
-	cout << cnt << " 번째 1000원 입금\n";
-	cv.notify_all();
+	cout << cnt << " 번째 1000원 입금, 잔액 : " << balance << endl;
 }
 
 void draw(int cnt) {
 	unique_lock<mutex> lck(mtx);
-	cout << cnt << " 번째 돌입 \n";
-	while (num != cnt || !ready) cv.wait(lck);
-	num++;
 	if (balance >= 1000) {
 		balance -= 1000;
-		cout << cnt << " 번째 1000원 출금\n";
+		cout << cnt << " 번째 1000원 출금, 잔액 : " << balance << endl;
 	}
-	else {
-		cout << cnt << " 잔액이 없습니다.\n";
-	}
-	cv.notify_all();
+	else cout << cnt << " 잔액이 없습니다.\n";
 }
 
 void run() {
-	unique_lock<std::mutex> lck(mtx);
-	ready = true;
-	cv.notify_all();
+	unique_lock<mutex> lck(mtx);
 }
 
 int main() {
@@ -59,5 +48,5 @@ int main() {
 		threads[id].join();
 
 
-	cout << balance << endl;
+	cout << "잔액 : " << balance << endl;
 }
