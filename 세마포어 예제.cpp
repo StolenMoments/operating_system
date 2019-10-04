@@ -1,5 +1,5 @@
 // reference : https://austingwalters.com/multithreading-semaphores
-// 입금, 출금 요청이 동시에 여러개가 들어와도 잔고는 멀쩡해야 하는 것이 목표.
+// 입출금 요청이 여러개 들어올 때, 입금-출금-입금-출금-... 순서로 Ordering
 #include <iostream>      
 #include <thread>        
 #include <mutex>         
@@ -15,21 +15,29 @@ int value = 1;
 
 void depo(int cnt) {
 	unique_lock<mutex> lck(mtx);
+	while (ready) cv.wait(lck);
 	balance += 1000;
 	cout << cnt << " 번째 1000원 입금, 잔액 : " << balance << endl;
+	ready = true;
+	cv.notify_all();
 }
 
 void draw(int cnt) {
 	unique_lock<mutex> lck(mtx);
+	while (!ready) cv.wait(lck);
 	if (balance >= 1000) {
 		balance -= 1000;
 		cout << cnt << " 번째 1000원 출금, 잔액 : " << balance << endl;
 	}
 	else cout << cnt << " 잔액이 없습니다.\n";
+	ready = false;
+	cv.notify_all();
 }
 
 void run() {
 	unique_lock<mutex> lck(mtx);
+	ready = false;
+	cv.notify_all();
 }
 
 int main() {
@@ -38,7 +46,7 @@ int main() {
 	std::thread threads[20];
 
 	for (int id = 0; id < threadnum; id++) {
-		if (id == 1 || id == 3 || id == 5 || (id >= 14 && id <= 17)) threads[id] = thread(depo, id);
+		if (id < 10) threads[id] = thread(depo, id);
 		else threads[id] = thread(draw, id);
 	}
 
