@@ -9,11 +9,12 @@ using namespace std;
 mutex mtx;             // mutex for critical section
 condition_variable cv; // condition variable for critical section  
 bool ready = false;         // Tell threads to run
-int balance = 0; 
+int balance = 0;
 int num = 0;
 
 void depo(int cnt) {
 	unique_lock<mutex> lck(mtx);
+	cout << cnt << " 번째 돌입 \n";
 	while (num != cnt || !ready) cv.wait(lck);
 	num++;
 	balance += 1000;
@@ -23,6 +24,7 @@ void depo(int cnt) {
 
 void draw(int cnt) {
 	unique_lock<mutex> lck(mtx);
+	cout << cnt << " 번째 돌입 \n";
 	while (num != cnt || !ready) cv.wait(lck);
 	num++;
 	if (balance >= 1000) {
@@ -47,7 +49,7 @@ int main() {
 	std::thread threads[20];
 
 	for (int id = 0; id < threadnum; id++) {
-		if(id < 8) threads[id] = thread(depo, id);
+		if (id == 1 || id == 3 || id == 5 || (id >= 14 && id <= 17)) threads[id] = thread(depo, id);
 		else threads[id] = thread(draw, id);
 	}
 
@@ -56,6 +58,6 @@ int main() {
 	for (int id = 0; id < threadnum; id++)
 		threads[id].join();
 
-	
+
 	cout << balance << endl;
 }
